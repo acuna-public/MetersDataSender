@@ -8,15 +8,13 @@
     
     protected function query ($uri, $v = 3, $data = []): array {
       
-      $curl = new \Curl ();
-      
       $data['method'] = ($data ? \Curl::POST : \Curl::GET);
       $data['url'] = $this->url.'/application/v'.$v.'/'.$uri;
-      $data['headers'] = ['Authorization' => $curl->auth ($this->params['token'])];
+      $data['headers'] = ['Authorization' => $this->curl->auth ($this->config['token'])];
       
-      $curl->setData ($data);
+      $this->curl->setData ($data);
       
-      return $curl->process ()[0]->getJSON ();
+      return $this->curl->process ()[0]->getJSON ();
       
     }
     
@@ -54,7 +52,7 @@
       
     }
     
-    public function getData ($account): array {
+    public function getData ($account = 0): array {
       
       $data = $this->query ('accounts/'.$account.'/data', 4);
       
@@ -67,16 +65,16 @@
       
     }
     
-    public function sendMeters ($account_id, $meters, $group_id = 0): array {
+    public function sendMeters ($account, $meters, $group_id = 0) {
       
       $data = [
         
-        'accountId' => $account_id,
+        'accountId' => $account,
         'newIndications' => [],
         
       ];
       
-      foreach ($meters as $meter) {
+      foreach ($meters['meters'] as $meter) {
         
         $data['newIndications'][] = [
           
@@ -99,9 +97,9 @@
         
       ];
       
-      //return $data;
+      return $data;
       
-      return $this->query ('accounts/indications/declare', 4, $data);
+      //return $this->query ('accounts/indications/declare', 4, $data);
       
     }
     
