@@ -4,11 +4,11 @@
   
   abstract class MetersDataSender extends Mash\Adapter {
     
-    public $lang = [], $text = '';
+    public $cookies = '';
     
     protected $curl;
     
-    function __construct ($config) {
+    function __construct ($config = []) {
       
       parent::__construct ($config);
       
