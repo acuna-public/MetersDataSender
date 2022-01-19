@@ -6,11 +6,13 @@
     
     public $cookies = '';
     
-    protected $curl;
+    protected $mash, $curl;
     
-    function __construct ($config = []) {
+    function __construct (Mash $mash, $config = []) {
       
       parent::__construct ($config);
+      
+      $mash->init ();
       
       $this->curl = new \Curl ();
       
