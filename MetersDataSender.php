@@ -1,7 +1,5 @@
 <?php
   
-  require __DIR__.'/../Mash/Adapter.php';
-  
   abstract class MetersDataSender extends Mash\Adapter {
     
     public $cookies = '';
@@ -20,7 +18,7 @@
     
     public abstract function getUserData (): array;
     public abstract function getData ($account = 0): array;
-    public abstract function sendMeters ($account, $meters, $group_id = 0);
+    public abstract function sendData ($meters, $account = 0, $group_id = 0);
     
     public function getGroups (): array {
       return [];

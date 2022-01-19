@@ -8,6 +8,13 @@
       $url = 'https://lk.ucmir.ru/desk/widget',
       $main = 'https://lk.ucmir.ru/desk/view';
     
+    public $data = [
+      
+      ['blue', 'Холодная вода', 1],
+      ['red', 'Горячая вода', 5],
+      
+    ];
+    
     protected function query ($url, $data = []) {
       
       $data['url'] = $url;
@@ -48,9 +55,12 @@
       
     }
     
-    public function sendMeters ($account, $meters, $group_id = 0) {
+    function sendData ($meters, $account = 0, $group_id = 0) {
       
-      foreach ($meters['meters'] as $meter) {
+      foreach ($meters['meters'] as $i => $meter) {
+        
+        $mdata = $this->data[$i];
+        $value = $meter['value'] + $mdata[2]; //rand (1, 10);
         
         $data = [
           
@@ -60,20 +70,18 @@
           'referer' => $this->main,
           
           'post_fields' => [
-            'value' => $meter['value'],
+            'value' => $value,
           ],
           
           'headers' => ['X-CSRF-TOKEN' => $meters['csrf']],
           
         ];
         
-        //print_r ($data);
-        
-        $this->curl->setData ($data);
+        $this->curl->setData ($data, ['data' => $mdata, 'value' => $value]);
         
       }
       
-      //return $this->curl->process ()[0]->getContent ();
+      return $this->curl->process ();
       
     }
     
