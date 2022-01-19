@@ -4,7 +4,9 @@
   
   class Mir extends \MetersDataSender {
     
-    public $url = 'https://lk.ucmir.ru/desk/widget', $main = 'https://lk.ucmir.ru/desk/view';
+    public
+      $url = 'https://lk.ucmir.ru/desk/widget',
+      $main = 'https://lk.ucmir.ru/desk/view';
     
     protected function query ($url, $data = []) {
       
